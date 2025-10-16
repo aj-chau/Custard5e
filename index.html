@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Homebrew Rules</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Quicksand:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e8d4b8 0%, #d4c5a9 100%);
+            padding: 20px;
+            font-family: 'Crimson Text', serif;
+        }
+        
+        .page {
+            width: 8.5in;
+            height: 11in;
+            margin: 20px auto;
+            background: linear-gradient(to bottom, #fef9f3 0%, #f5ede3 100%);
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border: 2px solid #c4a574;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(200, 180, 140, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(180, 150, 100, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .page::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(196, 165, 116, 0.03) 2px, rgba(196, 165, 116, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(196, 165, 116, 0.03) 2px, rgba(196, 165, 116, 0.03) 4px);
+            pointer-events: none;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            font-size: 10.5pt;
+            line-height: 1.35;
+            overflow-y: auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 22pt;
+            margin-bottom: 2px;
+            color: #6b5d4f;
+            font-weight: normal;
+            font-style: italic;
+            letter-spacing: 2px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 10pt;
+            margin-bottom: 10px;
+            color: #9d8b7e;
+            font-style: italic;
+            letter-spacing: 1px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c4a574, transparent);
+            margin: 8px 0;
+            opacity: 0.6;
+        }
+        
+        h2 {
+            font-size: 13pt;
+            margin-top: 10px;
+            margin-bottom: 6px;
+            color: #7a6b5d;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 1px solid #d4c5a9;
+            padding-bottom: 3px;
+            position: relative;
+        }
+        
+        h2::before {
+            content: '✦ ';
+            color: #c4a574;
+        }
+        
+        .rule-section {
+            margin-bottom: 8px;
+            padding: 0 0 0 12px;
+            border-left: 3px solid #d4b896;
+        }
+        
+        .ap-header {
+            color: #6b5d4f;
+            font-weight: 600;
+        }
+        
+        .ap-cost {
+            background: linear-gradient(135deg, #d4b896, #c4a574);
+            color: #fef9f3;
+            padding: 2px 6px;
+            font-weight: bold;
+            border-radius: 3px;
+            display: inline-block;
+            margin-right: 6px;
+            font-size: 9.5pt;
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        p {
+            margin-bottom: 4px;
+            line-height: 1.3;
+            color: #5d5047;
+        }
+        
+        .detail {
+            margin-left: 8px;
+            margin-top: 2px;
+            color: #7a6b5d;
+            font-size: 10pt;
+            line-height: 1.3;
+        }
+        
+        .highlight {
+            color: #8b7355;
+            font-weight: 600;
+            font-style: italic;
+        }
+        
+        .inline-note {
+            color: #9d8b7e;
+            font-size: 9.5pt;
+            font-style: italic;
+        }
+        
+        ul {
+            margin-left: 16px;
+            margin-bottom: 4px;
+            list-style: none;
+        }
+        
+        li {
+            margin-bottom: 2px;
+            position: relative;
+            padding-left: 6px;
+            color: #5d5047;
+        }
+        
+        li:before {
+            content: "◆";
+            position: absolute;
+            left: -2px;
+            color: #c4a574;
+            font-size: 8pt;
+        }
+        
+        .page2 {
+            column-count: 2;
+            column-gap: 25px;
+        }
+        
+        .page2 h2 {
+            column-span: all;
+            margin-bottom: 8px;
+        }
+        
+        .class-card {
+            background: linear-gradient(135deg, rgba(212, 184, 150, 0.15), rgba(196, 165, 116, 0.1));
+            border: 1px solid #d4b896;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+        
+        .class-name {
+            color: #6b5d4f;
+            font-weight: 600;
+            font-size: 10.5pt;
+            display: block;
+            margin-bottom: 3px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        .class-desc {
+            font-size: 10pt;
+            color: #5d5047;
+            line-height: 1.3;
+        }
+        
+        .class-desc p {
+            margin-bottom: 2px;
+        }
+        
+        @media print {
+            body {
+                background: #e8d4b8;
+            }
+            .page {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1 -->
+    <div class="page">
+        <div class="content">
+            <h1>Homebrew Rules</h1>
+            <p class="subtitle">Action Points & Combat Mechanics</p>
+            <div class="divider"></div>
+            
+            <h2>A NEW SKILL: LUCK</h2>
+            <p style="text-align: center; font-style: italic; color: #7a6b5d; font-weight: 500; margin: 6px 0;">Just roll a damn D20</p>
+            
+            <h2>SPELL LIMITATIONS</h2>
+            <p>Spells learned by class. <span class="highlight">Swap spells only at non-combat or non-critical roleplay moments.</span> <span class="highlight">Concentration:</span> A caster may concentrate on one spell at a time. Maintaining concentration costs AP equal to the spell's activation cost each round.</p>
+            
+            <h2>ACTION POINT SYSTEM</h2>
+            <p style="margin-bottom: 8px;">Every character has a base <span class="highlight">3 AP</span> at the end of their turn. Various spells and abilities can increase this amount.</p>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">5 AP</span><span class="ap-header">Level 6-9 Spells</span></p>
+                <div class="detail">After (LEVEL# - 2) uses in a single combat encounter, take 1d8 psychic damage per future advanced spell attack.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">3 AP</span><span class="ap-header">Called Shots</span></p>
+                <div class="detail">Attack with disadvantage to target a specific body part. On success, damage is resolved on a roleplay basis (e.g., disarming). An additional STR check may be required for extreme difficulty. Natural 20 causes permanent injury.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">3 AP</span><span class="ap-header">Spells Level 3-5</span></p>
+                <div class="detail">All spells of levels 3-5 cost 3 AP to cast. After (LEVEL#) casts in a single combat encounter, take 1d4 psychic damage per future advanced spell attack.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">3 AP</span><span class="ap-header">Multi-Attack</span></p>
+                <div class="detail">Class-specific multiple attacks with weapons.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">2 AP</span><span class="ap-header">Weapon Attack</span></p>
+                <div class="detail">A single weapon attack.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">2 AP</span><span class="ap-header">Cantrips</span></p>
+                <div class="detail">First cantrip costs 2 AP. Each additional cantrip cast the same turn costs 1 AP.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">2 AP</span><span class="ap-header">Spells Level 1-2</span></p>
+                <div class="detail">All spells of levels 1-2 cost 2 AP to cast.</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">2 AP</span><span class="ap-header">Actions · Dodge · Help · Boost</span></p>
+                <div class="detail"><span class="highlight">Dodge:</span> Disadvantage on next attack against you · <span class="highlight">Help:</span> Grant ally Advantage · <span class="highlight">Boost:</span> Grant creature within 10ft +1 AP</div>
+            </div>
+            
+            <div class="rule-section">
+                <p><span class="ap-cost">1 AP</span><span class="ap-header">Movement · Disengage · Interaction</span></p>
+                <div class="detail">10 feet of movement · Disengage · Simple object interaction (opening a door, drinking a potion, equipping a different weapon)</div>
+            </div>
+            
+            <h2>INJURY & DEATH THROWS</h2>
+            <p><span class="highlight">Stabilizing Check (DC 10):</span> Unlimited attempts. Failures add to death throw count. Those proficient in Medicine have DC 5 and bypass rolls under 5. <span class="highlight">Character rejoins fight with 1 HP and loses 1 AP for that encounter.</span> Potions, abilities, and magic cannot heal until stabilized. Out-of-combat healing restores AP maximum.</p>
+            
+            <p style="margin-top: 5px;"><span class="highlight">Two Failed Death Throws:</span> Receive one permanent injury (determined by roleplay or random chart). Many can be fixed through RP. Unlimited injuries possible.</p>
+            
+            <p style="margin-top: 5px;"><span class="highlight">Third Failed Roll:</span> Roll D20. Natural 1 = death. Natural 20 = full health. Other = <span class="highlight">Heroic Last Stand:</span> 6 AP, cannot flee or seek healer. Roleplay a significant final impact.</p>
+            
+            <h2>REST & RECOVERY</h2>
+            <p>Long rests and short rests both restore full health. No mechanical difference.</p>
+        </div>
+    </div>
+    
+    <!-- PAGE 2 -->
+    <div class="page page2">
+        <div class="content">
+            <h1>Class Abilities</h1>
+            <p class="subtitle">Action Point Bonuses & Special Features</p>
+            <div class="divider"></div>
+            
+            <h2>MELEE SPECIALISTS</h2>
+            
+            <div class="class-card">
+                <span class="class-name">🗡️ Fighter</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Action Surge:</span> Gain +2 AP (usable once per rest, twice at level 17+)</p>
+                    <p><span class="highlight">Single Attack:</span> 2 AP (available at all levels)</p>
+                    <p><span class="highlight">Multi-Attack Progression:</span> Levels 5-10 (2 attacks = 3 AP) · Levels 11-16 (3 attacks = 3 AP) · Levels 17-20 (4 attacks = 4 AP)</p>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <span class="class-name">🥋 Monk</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Flurry of Blows:</span> Spend 1 ki point to gain +1 AP (usable multiple times per turn)</p>
+                    <p><span class="highlight">Step of the Wind:</span> Spend 1 ki point, your movement costs 0 AP this turn</p>
+                    <p><span class="highlight">Level 17+:</span> Permanent +1 AP (total base of 4 AP)</p>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <span class="class-name">🎭 Rogue</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Cunning Action:</span> Dash, Disengage, or Hide costs 0 AP instead of 1 AP</p>
+                    <p><span class="highlight">Level 13+:</span> Once per turn, reduce any action's AP cost by 1 (minimum 1 AP)</p>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <span class="class-name">⚔️ Barbarian</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Rage:</span> While raging, gain +1 AP (4 AP total while raging)</p>
+                </div>
+            </div>
+            
+            <h2>HALF-CASTERS</h2>
+            
+            <div class="class-card">
+                <span class="class-name">⚡ Paladin</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Level 11+:</span> +1 permanent AP (4 AP base)</p>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <span class="class-name">🏹 Ranger</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Level 11+:</span> +1 permanent AP (4 AP base)</p>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <span class="class-name">🎵 Bard</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Bardic Inspiration (Enhanced):</span> Allies can spend a Bardic Inspiration die to gain +1 AP</p>
+                    <p><span class="highlight">Combat Inspiration (Valor/Swords):</span> When you grant Bardic Inspiration, that ally immediately gains +1 AP</p>
+                </div>
+            </div>
+            
+            <h2>FULL CASTERS</h2>
+            
+            <div class="class-card">
+                <span class="class-name">✨ Cleric · Druid · Sorcerer · Wizard</span>
+                <div class="class-desc">
+                    <p>No innate AP bonuses. Their power comes from unlimited spellcasting with exhaustion limits.</p>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <span class="class-name">🔮 Warlock</span>
+                <div class="class-desc">
+                    <p><span class="highlight">Eldritch Master (Level 20):</span> Once per rest, regain 2 AP as a free action</p>
+                    <p style="margin-top: 4px;"><span class="highlight">OR Mystic Arcanum:</span> Casting your Mystic Arcanum spells (6-9) doesn't trigger exhaustion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
